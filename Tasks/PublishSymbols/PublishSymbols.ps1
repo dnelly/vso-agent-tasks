@@ -1,5 +1,6 @@
 [cmdletbinding()]
 param(
+    [string]$Delete = 'false',
     [string]$SymbolsPath,
     [string]$SearchPattern,
     [string]$SourceFolder, # Support for sourceFolder has been Deprecated.
@@ -9,6 +10,7 @@ param(
     [string]$SymbolsFolder,
     [string]$SymbolsArtifactName,
     [string]$SkipIndexing,
+    [string]$TransactionId,
     [string]$TreatNotIndexedAsWarning = 'false',
     [string]$OmitDotSource
 )
@@ -22,12 +24,20 @@ import-module "Microsoft.TeamFoundation.DistributedTask.Task.Internal"
 import-module "Microsoft.TeamFoundation.DistributedTask.Task.Common"
 
 # Convert Booleans.
+[bool]$Delete = $Delete -eq 'true'
 [bool]$SkipIndexing = $SkipIndexing -eq 'true'
 [bool]$OmitDotSource = $OmitDotSource -eq 'true'
 [bool]$TreatNotIndexedAsWarning = $TreatNotIndexedAsWarning -eq 'true'
 
 if (!$OmitDotSource) {
-    . $PSScriptRoot\Helpers.ps1
+    . $PSScriptRoot\LegacyIndexHelpers.ps1
+    . $PSScriptRoot\LegacyPublishHelpers.ps1
+}
+
+if ($Delete) {
+    Write-Host "Invoke-DeleteSymbols -Share $SymbolsPath -TransactionId $TransactionId"
+    Invoke-DeleteSymbols -Share $SymbolsPath -TransactionId $TransactionId
+    return
 }
 
 # Warn if deprecated parameter was used.
