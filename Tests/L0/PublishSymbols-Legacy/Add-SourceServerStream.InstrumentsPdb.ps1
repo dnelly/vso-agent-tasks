@@ -3,7 +3,7 @@ param()
 
 # Arrange.
 . $PSScriptRoot\..\..\lib\Initialize-Test.ps1
-. $PSScriptRoot\..\..\..\Tasks\PublishSymbols\Helpers.ps1
+. $PSScriptRoot\..\..\..\Tasks\PublishSymbols\LegacyIndexHelpers.ps1
 Register-Mock Get-TempFileName { 'SomeDrive:\TempDir\TempFile.txt' }
 Register-Mock Copy-Item
 Register-Mock Remove-Item

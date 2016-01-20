@@ -3,7 +3,7 @@ param()
 
 # Arrange.
 . $PSScriptRoot\..\..\lib\Initialize-Test.ps1
-. $PSScriptRoot\..\..\..\Tasks\PublishSymbols\Helpers.ps1
+. $PSScriptRoot\..\..\..\Tasks\PublishSymbols\LegacyIndexHelpers.ps1
 $env:AGENT_HOMEDIRECTORY = 'SomeDrive:\AgentHome'
 Register-Mock Test-Path { $false }
 Register-Mock Get-CurrentProcess

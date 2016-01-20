@@ -3,7 +3,7 @@ param()
 
 # Arrange.
 . $PSScriptRoot\..\..\lib\Initialize-Test.ps1
-. $PSScriptRoot\..\..\..\Tasks\PublishSymbols\Helpers.ps1
+. $PSScriptRoot\..\..\..\Tasks\PublishSymbols\LegacyIndexHelpers.ps1
 $env:TMP = "$env:TMP _"
 Register-Mock Write-Warning
 $script:pdbstrExePath = 'SomeDrive:\SomeDir\pdbstr.exe'

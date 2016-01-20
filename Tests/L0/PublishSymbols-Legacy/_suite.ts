@@ -10,7 +10,7 @@ import path = require('path');
 var shell = require('shelljs');
 var ps = shell.which('powershell');
 console.log(ps);
-describe('PublishSymbols Suite', function () {
+describe('PublishSymbols-Legacy Suite', function () {
     this.timeout(10000);
 
     before((done) => {

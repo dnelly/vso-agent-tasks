@@ -3,7 +3,7 @@ param()
 
 # Arrange.
 . $PSScriptRoot\..\..\lib\Initialize-Test.ps1
-. $PSScriptRoot\..\..\..\Tasks\PublishSymbols\Helpers.ps1
+. $PSScriptRoot\..\..\..\Tasks\PublishSymbols\LegacyIndexHelpers.ps1
 $env:BUILD_REPOSITORY_PROVIDER = 'Some repository provider'
 $env:BUILD_SOURCESDIRECTORY = 'Some build sources directory'
 $env:SYSTEM_TEAMPROJECTID = 'Some team project ID'

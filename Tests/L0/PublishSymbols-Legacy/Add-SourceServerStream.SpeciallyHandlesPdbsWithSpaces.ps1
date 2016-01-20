@@ -3,7 +3,7 @@ param()
 
 # Arrange.
 . $PSScriptRoot\..\..\lib\Initialize-Test.ps1
-. $PSScriptRoot\..\..\..\Tasks\PublishSymbols\Helpers.ps1
+. $PSScriptRoot\..\..\..\Tasks\PublishSymbols\LegacyIndexHelpers.ps1
 $global:tempFileCount = 0
 Register-Mock Get-TempFileName { "SomeDrive:\TempDir\TempFile$($global:tempFileCount++ ; $global:tempFileCount).txt" }
 Register-Mock Copy-Item
