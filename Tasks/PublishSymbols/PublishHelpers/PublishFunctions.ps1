@@ -19,6 +19,7 @@ function Invoke-PublishSymbols {
 
     Trace-VstsEnteringInvocation $MyInvocation
     try {
+        # Short-circuit if no files.
         if (!$PdbFiles.Count) {
             Write-Warning (Get-VstsLocString -Key NoFilesForPublishing)
             return
@@ -26,10 +27,16 @@ function Invoke-PublishSymbols {
 
         [string]$symbolsRspFile = ''
         try {
-            $symbolsRspFile = New-ResponseFile
+            # Write the list of PDBs to the response file.
+            $symbolsRspFile = New-ResponseFile -PdbFiles $PdbFiles
+
+            # Adjust the max wait time if out of range.
             $MaximumWaitTime = Get-ValidValue -Current $MaximumWaitTime -Minimum ([timespan]::FromMinutes(1)) -Maximum ([timespan]::FromHours(3))
+
+            # Obtain the semaphore.
             $semaphore = Lock-Semaphore -Share $Share -MaximumWaitTime $MaximumWaitTime -SemaphoreMessage $SemaphoreMessage
             try {
+                # Invoke symstore.exe.
                 $symstoreArgs = "add /f ""@$symbolsRspFile"" /s ""$Share"" /t ""$Product"" /v ""$Version"""
                 Invoke-VstsTool -FileName (Get-SymStorePath) -Arguments $symstoreArgs -WorkingDirectory ([System.IO.Path]::GetTempPath()) 2>&1 |
                     ForEach-Object {
@@ -41,9 +48,11 @@ function Invoke-PublishSymbols {
                     }
                 $lastTransactionId = Get-LastTransactionId
             } finally {
+                # Release the semaphore.
                 Unlock-Semaphore $semaphore
             }
 
+            # Default the artifact name.
             if (!$ArtifactName) {
                 if ($lastTransactionId) {
                     $ArtifactName = $lastTransactionId
@@ -52,10 +61,12 @@ function Invoke-PublishSymbols {
                 }
             }
 
+            # Create the artifact.
             Write-VstsAssociateArtifact -Name $ArtifactName -Path $Share -Type 'SymbolStore' -Properties @{
                 TransactionId = $lastTransactionId
             }
         } finally {
+            # Delete the temporary response file.
             if ($symbolsRspFile) {
                 [System.IO.File]::Delete($symbolsRspFile)
             }
@@ -84,7 +95,9 @@ function Get-LastTransactionId {
 
 function New-ResponseFile {
     [CmdletBinding()]
-    param()
+    param(
+        [Parameter(Mandatory = $true)]
+        [string[]]$PdbFiles)
 
     Trace-VstsEnteringInvocation $MyInvocation
     try {
@@ -92,9 +105,7 @@ function New-ResponseFile {
         $sw = New-Object System.IO.StreamWriter([System.IO.File]::OpenWrite($symbolsRspFile))
         try {
             foreach ($pdbFile in $PdbFiles) {
-                if (Test-Path -LiteralPath $PdbFile -PathType Leaf) {
-                    $sw.WriteLine($pdbFile)
-                }
+                $sw.WriteLine($pdbFile)
             }
         } finally {
             $sw.Dispose()

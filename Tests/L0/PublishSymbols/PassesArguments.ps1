@@ -15,6 +15,7 @@ Register-Mock Get-VstsTaskVariable
 Register-Mock Find-VstsFiles { 'Some PDB file 1', 'Some PDB file 2' }
 Register-Mock Invoke-IndexSources
 Register-Mock Invoke-PublishSymbols
+Register-Mock Invoke-UnpublishSymbols
 foreach ($treatNotIndexedAsWarning in @($true, $false)) {
     Unregister-Mock Get-VstsInput
     Register-Mock Get-VstsInput { '123' } -- -Name 'SymbolsMaximumWaitTime' -Default '0' -AsInt
@@ -30,6 +31,7 @@ foreach ($treatNotIndexedAsWarning in @($true, $false)) {
     & $PSScriptRoot\..\..\..\Tasks\PublishSymbols\PublishSymbols_PS3.ps1
 
     # Assert.
+    Assert-WasCalled Invoke-UnpublishSymbols -Times 0
     Assert-WasCalled Find-VstsFiles -- -LiteralDirectory 'Some input symbols folder' -LegacyPattern 'Some input search pattern'
     Assert-WasCalled Invoke-IndexSources -- -SymbolsFilePaths ('Some PDB file 1', 'Some PDB file 2') -TreatNotIndexedAsWarning: $treatNotIndexedAsWarning
     $semaphoreMessage = "Machine: $env:ComputerName, BuildUri: Some build URI, BuildNumber: Some build number, RepositoryName: Some build repository name, RepositoryUri: Some build repository URI, Team Project: Some team project, CollectionUri: Some team foundation collection URI at $($now.ToUniversalTime()) UTC"
