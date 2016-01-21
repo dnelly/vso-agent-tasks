@@ -14,7 +14,7 @@ try {
     if ([bool]$Delete = Get-VstsInput -Name 'Delete' -AsBool) {
         # Construct the semaphore message.
         $utcNow = (Get-Date).ToUniversalTime()
-        $semaphoreMessage = "Unpublish = True, Machine: $env:ComputerName, BuildUri: $env:Build_BuildUri, BuildNumber: $env:Build_BuildNumber, RepositoryName: $env:Build_Repository_Name, RepositoryUri: $env:Build_Repository_Uri, Team Project: $env:System_TeamProject, CollectionUri: $env:System_TeamFoundationCollectionUri at $utcNow UTC"
+        $semaphoreMessage = "Unpublish: True, Machine: $env:ComputerName, BuildUri: $env:Build_BuildUri, BuildNumber: $env:Build_BuildNumber, RepositoryName: $env:Build_Repository_Name, RepositoryUri: $env:Build_Repository_Uri, Team Project: $env:System_TeamProject, CollectionUri: $env:System_TeamFoundationCollectionUri at $utcNow UTC"
 
         # Delete the symbol store transaction.
         [string]$SymbolsPath = Get-VstsInput -Name 'SymbolsPath' -Require

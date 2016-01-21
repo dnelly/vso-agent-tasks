@@ -91,6 +91,9 @@ describe('PublishSymbols-Legacy Suite', function () {
         it('passes arguments', (done) => {
             psm.runPS(path.join(__dirname, 'PassesArguments.ps1'), done);
         })
+        it('passes delete arguments', (done) => {
+            psm.runPS(path.join(__dirname, 'PassesDeleteArguments.ps1'), done);
+        })
         it('sets fallback max wait time', (done) => {
             psm.runPS(path.join(__dirname, 'SetsFallbackMaxWaitTime.ps1'), done);
         })
