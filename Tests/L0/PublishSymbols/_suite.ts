@@ -58,6 +58,9 @@ describe('PublishSymbols-Legacy Suite', function () {
         it('(Get-SourceProvider) warns for unsupported provider', (done) => {
             psm.runPS(path.join(__dirname, 'Get-SourceProvider.WarnsForUnsupportedProvider.ps1'), done);
         })
+        it('(Get-ValidValue) returns within range', (done) => {
+            psm.runPS(path.join(__dirname, 'Get-ValidValue.ReturnsWithinRange.ps1'), done);
+        })
         it('(Invoke-DisposeSourceProvider) disposes collection', (done) => {
             psm.runPS(path.join(__dirname, 'Invoke-DisposeSourceProvider.DisposesCollection.ps1'), done);
         })
@@ -75,6 +78,18 @@ describe('PublishSymbols-Legacy Suite', function () {
         })
         it('(Invoke-IndexSources) warns if tmp contains space', (done) => {
             psm.runPS(path.join(__dirname, 'Invoke-IndexSources.WarnsIfTmpContainsSpace.ps1'), done);
+        })
+        it('(Lock-Semaphore) cleans up expired semaphore', (done) => {
+            psm.runPS(path.join(__dirname, 'Lock-Semaphore.CleansUpExpiredSemaphore.ps1'), done);
+        })
+        it('(Lock-Semaphore) creates semaphore', (done) => {
+            psm.runPS(path.join(__dirname, 'Lock-Semaphore.CreatesSemaphore.ps1'), done);
+        })
+        it('(Lock-Semaphore) reaches max wait time', (done) => {
+            psm.runPS(path.join(__dirname, 'Lock-Semaphore.ReachesMaxWaitTime.ps1'), done);
+        })
+        it('(Lock-Semaphore) retries on exception', (done) => {
+            psm.runPS(path.join(__dirname, 'Lock-Semaphore.RetriesOnException.ps1'), done);
         })
         it('(New-SrcSrvIniContent) returns tfs git content', (done) => {
             psm.runPS(path.join(__dirname, 'New-SrcSrvIniContent.ReturnsTfsGitContent.ps1'), done);
@@ -94,6 +109,9 @@ describe('PublishSymbols-Legacy Suite', function () {
         it('passes delete arguments', (done) => {
             psm.runPS(path.join(__dirname, 'PassesDeleteArguments.ps1'), done);
         })
+        it('(Remove-SemaphoreFile_Safe) performs cleanup', (done) => {
+            psm.runPS(path.join(__dirname, 'Remove-SemaphoreFile_Safe.PerformsCleanup.ps1'), done);
+        })
         it('sets fallback max wait time', (done) => {
             psm.runPS(path.join(__dirname, 'SetsFallbackMaxWaitTime.ps1'), done);
         })
@@ -102,6 +120,12 @@ describe('PublishSymbols-Legacy Suite', function () {
         })
         it('skips publishing', (done) => {
             psm.runPS(path.join(__dirname, 'SkipsPublishing.ps1'), done);
+        })
+        it('(Test-SemaphoreMaximumAge) is correct', (done) => {
+            psm.runPS(path.join(__dirname, 'Test-SemaphoreMaximumAge.IsCorrect.ps1'), done);
+        })
+        it('(Unlock-Semaphore) performs cleanup', (done) => {
+            psm.runPS(path.join(__dirname, 'Unlock-Semaphore.PerformsCleanup.ps1'), done);
         })
     }
 });
