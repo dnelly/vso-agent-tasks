@@ -87,10 +87,10 @@ function Lock-Semaphore {
             # Semaphore file exists.
             if (Test-Path -LiteralPath $semaphoreFile -PathType Leaf) {
                 # File can be deleted.
-                if (!$attemptedDelete -and (Test-SemphoreMaximumAge -SemaphoreFile $semaphoreFile)) {
+                if (!$attemptedDelete -and (Test-SemaphoreMaximumAge -SemaphoreFile $semaphoreFile)) {
                     # Try delete.
                     $attemptedDelete = $true
-                    Remove-SemaphoreFile # This function does not throw.
+                    Remove-SemaphoreFile_Safe # This function does not throw.
 
                     # Continue.
                     continue
@@ -146,7 +146,7 @@ function Lock-Semaphore {
     }
 }
 
-function Remove-SemaphoreFile {
+function Remove-SemaphoreFile_Safe {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true)]
@@ -162,7 +162,7 @@ function Remove-SemaphoreFile {
     }
 }
 
-function Test-SemphoreMaximumAge {
+function Test-SemaphoreMaximumAge {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true)]
