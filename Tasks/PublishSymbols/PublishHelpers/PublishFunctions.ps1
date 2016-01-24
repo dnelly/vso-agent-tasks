@@ -53,13 +53,7 @@ function Invoke-PublishSymbols {
             }
 
             # Default the artifact name.
-            if (!$ArtifactName) {
-                if ($lastTransactionId) {
-                    $ArtifactName = $lastTransactionId
-                } else {
-                    $ArtifactName = [guid]::NewGuid().ToString() 
-                }
-            }
+            $ArtifactName = Get-ArtifactName -ArtifactName $ArtifactName -LastTransactionId $lastTransactionId
 
             # Create the artifact.
             Write-VstsAssociateArtifact -Name $ArtifactName -Path $Share -Type 'SymbolStore' -Properties @{
@@ -79,6 +73,15 @@ function Invoke-PublishSymbols {
 ########################################
 # Private functions.
 ########################################
+function Get-ArtifactName {
+    [CmdletBinding()]
+    param($ArtifactName, $LastTransactionId)
+
+    if ($ArtifactName) { $ArtifactName }
+    elseif ($LastTransactionId) { $LastTransactionId }
+    else { [guid]::NewGuid().ToString() }
+}
+
 function Get-LastTransactionId {
     [CmdletBinding()]
     param(
