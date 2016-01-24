@@ -35,7 +35,7 @@ function Lock-Semaphore {
                     if (!$attemptedDelete -and (Test-SemaphoreMaximumAge -SemaphoreFile $semaphoreFile)) {
                         # Try delete.
                         $attemptedDelete = $true
-                        Remove-SemaphoreFile_Safe # This function does not throw.
+                        Remove-SemaphoreFile_Safe -SemaphoreFile $semaphoreFile # This function does not throw.
 
                         # Continue.
                         continue
