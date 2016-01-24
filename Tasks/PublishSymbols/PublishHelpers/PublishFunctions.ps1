@@ -107,6 +107,8 @@ function New-ResponseFile {
             foreach ($pdbFile in $PdbFiles) {
                 $sw.WriteLine($pdbFile)
             }
+
+            $sw.Flush()
         } finally {
             $sw.Dispose()
         }
