@@ -1,4 +1,3 @@
-# also add test for short-circuit case.
 [CmdletBinding()]
 param()
 
@@ -17,7 +16,7 @@ $responseFile = "$share\responseFile.txt"
 Register-Mock New-ResponseFile { [System.IO.File]::WriteAllText($responseFile, 'Some response file content') ; $responseFile }
 $semaphore = New-Object psobject
 Register-Mock Lock-Semaphore { $semaphore }
-Register-Mock Get-SymStorePath { 'Some path to symstore.exe'}
+Register-Mock Get-SymStorePath { 'Some path to symstore.exe' }
 Register-Mock Invoke-VstsTool
 Register-Mock Get-LastTransactionId { 'Some last transaction ID' }
 Register-Mock Unlock-Semaphore
@@ -27,7 +26,7 @@ try {
     $null = [System.IO.Directory]::CreateDirectory($share)
 
     # Act.
-    Invoke-PublishSymbols -PdbFiles $pdbFiles -Share $share -Product $product -Version $version -MaximumWaitTime $maximumWaitTime -SemaphoreMessage $semaphoreMessage -ArtifactName $artifactName -ErrorVariable actualErrors
+    Invoke-PublishSymbols -PdbFiles $pdbFiles -Share $share -Product $product -Version $version -MaximumWaitTime $maximumWaitTime -SemaphoreMessage $semaphoreMessage -ArtifactName $artifactName
 
     # Assert.
     Assert-WasCalled New-ResponseFile -- -PdbFiles $pdbFiles
