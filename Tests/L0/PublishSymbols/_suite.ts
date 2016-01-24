@@ -40,6 +40,15 @@ describe('PublishSymbols-Legacy Suite', function () {
         it('(Add-SourceServerStream) specially handles pdbs with spaces', (done) => {
             psm.runPS(path.join(__dirname, 'Add-SourceServerStream.SpeciallyHandlesPdbsWithSpaces.ps1'), done);
         })
+        it('(Get-ArtifactName) returns correct value', (done) => {
+            psm.runPS(path.join(__dirname, 'Get-ArtifactName.ReturnsCorrectValue.ps1'), done);
+        })
+        it('(Get-LastTransactionId) gets id', (done) => {
+            psm.runPS(path.join(__dirname, 'Get-LastTransactionId.GetsId.ps1'), done);
+        })
+        it('(Get-LastTransactionId) warns if not found', (done) => {
+            psm.runPS(path.join(__dirname, 'Get-LastTransactionId.WarnsIfNotFound.ps1'), done);
+        })
         it('(Get-SourceFilePaths) returns multiple files', (done) => {
             psm.runPS(path.join(__dirname, 'Get-SourceFilePaths.ReturnsMultipleFiles.ps1'), done);
         })
@@ -79,6 +88,15 @@ describe('PublishSymbols-Legacy Suite', function () {
         it('(Invoke-IndexSources) warns if tmp contains space', (done) => {
             psm.runPS(path.join(__dirname, 'Invoke-IndexSources.WarnsIfTmpContainsSpace.ps1'), done);
         })
+        it('(Invoke-PublishSymbols) publishes', (done) => {
+            psm.runPS(path.join(__dirname, 'Invoke-PublishSymbols.Publishes.ps1'), done);
+        })
+        it('(Invoke-PublishSymbols) returns if no files', (done) => {
+            psm.runPS(path.join(__dirname, 'Invoke-PublishSymbols.ReturnsIfNoFiles.ps1'), done);
+        })
+        it('(Invoke-UnpublishSymbols) unpublishes', (done) => {
+            psm.runPS(path.join(__dirname, 'Invoke-UnpublishSymbols.Unpublishes.ps1'), done);
+        })
         it('(Lock-Semaphore) cleans up expired semaphore', (done) => {
             psm.runPS(path.join(__dirname, 'Lock-Semaphore.CleansUpExpiredSemaphore.ps1'), done);
         })
@@ -90,6 +108,9 @@ describe('PublishSymbols-Legacy Suite', function () {
         })
         it('(Lock-Semaphore) retries on exception', (done) => {
             psm.runPS(path.join(__dirname, 'Lock-Semaphore.RetriesOnException.ps1'), done);
+        })
+        it('(New-ResponseFile) creates file', (done) => {
+            psm.runPS(path.join(__dirname, 'New-ResponseFile.CreatesFile.ps1'), done);
         })
         it('(New-SrcSrvIniContent) returns tfs git content', (done) => {
             psm.runPS(path.join(__dirname, 'New-SrcSrvIniContent.ReturnsTfsGitContent.ps1'), done);
