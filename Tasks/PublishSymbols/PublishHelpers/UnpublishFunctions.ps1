@@ -31,6 +31,6 @@ function Invoke-UnpublishSymbols {
             Unlock-Semaphore $semaphore
         }
     } finally {
-        Trace-VstsLeavingInvocation
+        Trace-VstsLeavingInvocation $MyInvocation
     }
 }

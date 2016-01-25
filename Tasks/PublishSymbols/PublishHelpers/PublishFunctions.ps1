@@ -92,7 +92,7 @@ function Get-LastTransactionId {
     if (Test-Path -LiteralPath $lastIdFileName -PathType Leaf) {
         [System.IO.File]::ReadAllText($lastIdFileName).Trim()
     } else {
-        Write-Warning (Get-VstsLocString -Key SymbolStoreLastIdTxtNotFoundAt0 -ArgumentList [System.IO.Path]::Combine($Share, "000Admin"))
+        Write-Warning (Get-VstsLocString -Key SymbolStoreLastIdTxtNotFoundAt0 -ArgumentList ([System.IO.Path]::Combine($Share, "000Admin")))
     }
 }
 

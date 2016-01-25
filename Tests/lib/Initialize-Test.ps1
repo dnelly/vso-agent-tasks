@@ -11,7 +11,7 @@ Import-Module $PSScriptRoot\TestHelpersModule -Verbose:$false
 Register-Mock Import-Module
 if (!$Legacy) {
     # Mock implementations for common VSTS task SDK functions.
-    function Get-VstsLocString {
+    function global:Get-VstsLocString {
         [CmdletBinding()]
         param(
             [Parameter(Mandatory = $true, Position = 1)]
@@ -23,16 +23,18 @@ if (!$Legacy) {
         "$Key$(if ($ArgumentList.Count) { " $ArgumentList" })"
     }
 
-    function Import-VstsLocStrings { }
+    function global:Import-VstsLocStrings {
+        [CmdletBinding()]
+        param([Parameter(Mandatory = $true)][string]$LiteralPath) }
 
-    function Trace-VstsEnteringInvocation {
+    function global:Trace-VstsEnteringInvocation {
         [CmdletBinding()]
         param(
             [Parameter(Mandatory = $true)]
             [System.Management.Automation.InvocationInfo]$InvocationInfo,
             [string[]]$Parameter = '*')
 
-        Write-Verbose "Entering $(Get-InvocationDescription $InvocationInfo)."
+        Write-Verbose "Entering $(Get-VstsInvocationDescription__ $InvocationInfo)."
         $OFS = ", "
         if ($InvocationInfo.BoundParameters.Count -and $Parameter.Count) {
             if ($Parameter.Count -eq 1 -and $Parameter[0] -eq '*') {
@@ -58,13 +60,26 @@ if (!$Legacy) {
         }
     }
 
-    function Trace-VstsLeavingInvocation {
+    function global:Trace-VstsLeavingInvocation {
         [CmdletBinding()]
         param(
             [Parameter(Mandatory = $true)]
             [System.Management.Automation.InvocationInfo]$InvocationInfo)
 
-        Write-Verbose "Leaving $(Get-InvocationDescription $InvocationInfo)."
+        Write-Verbose "Leaving $(Get-VstsInvocationDescription__ $InvocationInfo)."
+    }
+
+    function Get-VstsInvocationDescription__ {
+        [CmdletBinding()]
+        param([System.Management.Automation.InvocationInfo]$InvocationInfo)
+
+        if ($InvocationInfo.MyCommand.Path) {
+            $InvocationInfo.MyCommand.Path
+        } elseif ($InvocationInfo.MyCommand.Name) {
+            $InvocationInfo.MyCommand.Name
+        } else {
+            $InvocationInfo.MyCommand.CommandType
+        }
     }
 }
 
