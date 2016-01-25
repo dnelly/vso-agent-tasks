@@ -2,7 +2,7 @@
 param()
 
 # Arrange.
-. $PSScriptRoot\..\..\lib\Initialize-Test.ps1
+. $PSScriptRoot\..\..\lib\Initialize-Test.ps1 -Legacy
 . $PSScriptRoot\..\..\..\Tasks\PublishSymbols\LegacyIndexHelpers.ps1
 $provider = New-Object psobject -Property @{ Name = 'TfsGit' }
 $sourceFiles = 'SomeDrive:\SomeDir\SomeFile1.cs', 'SomeDrive:\SomeDir\SomeFile2.cs'

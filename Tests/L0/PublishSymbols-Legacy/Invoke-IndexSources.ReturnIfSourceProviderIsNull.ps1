@@ -2,7 +2,7 @@
 param()
 
 # Arrange.
-. $PSScriptRoot\..\..\lib\Initialize-Test.ps1
+. $PSScriptRoot\..\..\lib\Initialize-Test.ps1 -Legacy
 . $PSScriptRoot\..\..\..\Tasks\PublishSymbols\LegacyIndexHelpers.ps1
 $script:pdbstrExePath = 'SomeDrive:\SomeDir\pdbstr.exe'
 Register-Mock Get-ToolPath { $script:pdbstrExePath } -- -Name 'Pdbstr\pdbstr.exe'

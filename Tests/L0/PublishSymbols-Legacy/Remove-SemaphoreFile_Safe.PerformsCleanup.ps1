@@ -2,17 +2,17 @@
 param()
 
 # Arrange.
-. $PSScriptRoot\..\..\lib\Initialize-Test.ps1
-. $PSScriptRoot\..\..\..\Tasks\PublishSymbols\PublishHelpers\SemaphoreFunctions.ps1
+. $PSScriptRoot\..\..\lib\Initialize-Test.ps1 -Legacy
+. $PSScriptRoot\..\..\..\Tasks\PublishSymbols\LegacyPublishHelpers.ps1
 $variableSets = @( )
 try {
     $variableSets += @{
         TempFile = [System.IO.Path]::GetTempFileName()
-        ExpectedWarning = '*CleanedUpSemaphoreFile0*'
+        ExpectedWarning = '*Semaphore*cleaned*up*successfully*'
     }
     $variableSets += @{
         TempFile = [System.IO.Path]::Combine($env:TMP, ([System.Guid]::NewGuid()), 'NoSuchFile.txt')
-        ExpectedWarning = '*CleanUpSemaphoreFile0Error1*'
+        ExpectedWarning = '*Semaphore*exists*Attempting*clean*up*'
     }
     foreach ($variableSet in $variableSets) {
         Unregister-Mock Write-Warning
@@ -23,7 +23,7 @@ try {
 
         # Assert.
         Assert-WasCalled Write-Warning -Times 2
-        Assert-WasCalled Write-Warning -ArgumentsEvaluator { $args[0] -like '*SemaphoreFile0Minutes1AttemptingCleanup*' }
+        Assert-WasCalled Write-Warning -ArgumentsEvaluator { $args[0] -like '*Semaphore*exists*Attempting*clean*up*' }
         Assert-WasCalled Write-Warning -ArgumentsEvaluator { $args[0] -like $variableSet.ExpectedWarning }
         Assert-IsNullOrEmpty (Get-Item -LiteralPath $variableSet.TempFile -ErrorAction Ignore)
     }

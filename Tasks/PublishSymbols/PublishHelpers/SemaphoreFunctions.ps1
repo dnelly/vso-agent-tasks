@@ -81,7 +81,7 @@ function Lock-Semaphore {
                 # This will occur if the file is in use by another agent (the "typical, expected" case).
                 # This will occur if the file gets created after the File.Exists check above but before File.Open.
                 # It can also occur if the server does not exist or cannot be found.
-                Write-Warning (Get-VstsLocString -Key Error0AccessingSemaphoreFile1Retrying2Seconds, $_.Exception.Message, $semaphoreFile, $sleepInterval.TotalSeconds)
+                Write-Warning (Get-VstsLocString -Key Error0AccessingSemaphoreFile1Retrying2Seconds -ArgumentList $_.Exception.Message, $semaphoreFile, $sleepInterval.TotalSeconds)
             }
 
             # A retriable exception happened.

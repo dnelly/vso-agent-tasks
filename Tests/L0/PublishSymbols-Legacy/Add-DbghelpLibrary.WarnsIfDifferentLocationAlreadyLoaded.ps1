@@ -2,7 +2,7 @@
 param()
 
 # Arrange.
-. $PSScriptRoot\..\..\lib\Initialize-Test.ps1
+. $PSScriptRoot\..\..\lib\Initialize-Test.ps1 -Legacy
 . $PSScriptRoot\..\..\..\Tasks\PublishSymbols\LegacyIndexHelpers.ps1
 $env:AGENT_HOMEDIRECTORY = 'SomeDrive:\AgentHome'
 Register-Mock Test-Path { $true }

@@ -2,7 +2,7 @@
 param()
 
 # Arrange.
-. $PSScriptRoot\..\..\lib\Initialize-Test.ps1
+. $PSScriptRoot\..\..\lib\Initialize-Test.ps1 -Legacy
 . $PSScriptRoot\..\..\..\Tasks\PublishSymbols\LegacyIndexHelpers.ps1
 $global:disposeCount = 0
 $tfsTeamProjectCollection = New-Object psobject

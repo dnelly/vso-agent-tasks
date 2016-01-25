@@ -2,7 +2,7 @@
 param()
 
 # Arrange.
-. $PSScriptRoot\..\..\lib\Initialize-Test.ps1
+. $PSScriptRoot\..\..\lib\Initialize-Test.ps1 -Legacy
 
 $now = Get-Date
 $env:Build_BuildUri = 'Some build URI'

@@ -2,7 +2,7 @@
 param()
 
 # Arrange.
-. $PSScriptRoot\..\..\lib\Initialize-Test.ps1
+. $PSScriptRoot\..\..\lib\Initialize-Test.ps1 -Legacy
 $now = Get-Date
 Register-Mock Get-Date { $now }
 Register-Mock Find-Files { 'Some PDB file 1', 'Some PDB file 2' }

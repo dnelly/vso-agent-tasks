@@ -2,7 +2,7 @@
 param()
 
 # Arrange.
-. $PSScriptRoot\..\..\lib\Initialize-Test.ps1
+. $PSScriptRoot\..\..\lib\Initialize-Test.ps1 -Legacy
 . $PSScriptRoot\..\..\..\Tasks\PublishSymbols\LegacyIndexHelpers.ps1
 $env:BUILD_REPOSITORY_PROVIDER = 'TfsGit'
 $env:BUILD_SOURCESDIRECTORY = 'Some build sources directory'
