@@ -2,6 +2,7 @@
 param()
 
 Write-Verbose "Initializing test helpers."
+$ErrorActionPreference = 'Stop'
 $PSModuleAutoloadingPreference = 'None'
 if (!(Get-Module | Where-Object { $_.Name -eq 'Microsoft.PowerShell.Management' })) {
     Write-Verbose "Importing module: Microsoft.PowerShell.Management"
@@ -13,9 +14,9 @@ Register-Mock Import-Module
 
 # Temporary mocks for common VSTS task SDK. Need to actually import the module instead.
 Register-Mock Get-VstsLocString { $OFS = ' ' ; "$($args[1]) $($args[3])".Trim() }
-Register-Mock Import-VstsLocStrings
-Register-Mock Trace-VstsEnteringInvocation
-Register-Mock Trace-VstsLeavingInvocation
+Register-Mock Import-VstsLocStrings { if (!$args.Count) { throw 'Missing arguments.' } }
+Register-Mock Trace-VstsEnteringInvocation { if (!$args.Count) { throw 'Missing arguments.' } }
+Register-Mock Trace-VstsLeavingInvocation { if (!$args.Count) { throw 'Missing arguments.' } }
 
 # This is a mock implementation for the legacy module cmdlet.
 function Get-LocalizedString {

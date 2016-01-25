@@ -32,6 +32,7 @@ try {
     Assert-WasCalled New-ResponseFile -- -PdbFiles $pdbFiles
     Assert-WasCalled Lock-Semaphore -Share $share -MaximumWaitTime ([timespan]::FromMinutes(1)) -SemaphoreMessage $semaphoreMessage
     Assert-WasCalled Invoke-VstsTool -- -FileName 'Some path to symstore.exe' -Arguments "add /f ""@$responseFile"" /s ""$share"" /t ""$product"" /v ""$version""" -WorkingDirectory ([System.IO.Path]::GetTempPath())
+    Assert-WasCalled Get-LastTransactionId -- -Share $share
     Assert-WasCalled Unlock-Semaphore -- $semaphore
     Assert-WasCalled Get-ArtifactName -- -ArtifactName $artifactName -LastTransactionId 'Some last transaction ID'
     Assert-WasCalled Write-VstsAssociateArtifact -ParametersEvaluator {

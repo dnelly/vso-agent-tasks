@@ -46,7 +46,7 @@ function Invoke-PublishSymbols {
                             Write-Verbose $_
                         }
                     }
-                $lastTransactionId = Get-LastTransactionId
+                $lastTransactionId = Get-LastTransactionId -Share $Share
             } finally {
                 # Release the semaphore.
                 Unlock-Semaphore $semaphore
@@ -66,7 +66,7 @@ function Invoke-PublishSymbols {
             }
         }
     } finally {
-        Trace-VstsLeavingInvocation
+        Trace-VstsLeavingInvocation $MyInvocation
     }
 }
 
